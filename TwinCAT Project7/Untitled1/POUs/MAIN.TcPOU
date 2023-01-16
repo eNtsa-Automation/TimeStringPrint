@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MAIN" Id="{fbe2084b-4d56-4f1b-8424-b1f80ccbd60b}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	bBool	: BOOL;
+	iInt	: INT;
+	
+	fbGetEndTime: FB_GetEndTime;
+	
+	bTestTimeCalc	: BOOL;
+	strEndTimeString	: STRING(255);
+	strStartTimeString	: STRING(255);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[iInt	:= iInt + 1;
+IF(iInt > 100) THEN
+	bBool	:= NOT(bBool); 
+	iInt	:= 0;
+END_IF
+
+fbGetEndTime();
+IF(bTestTimeCalc)THEN
+	strEndTimeString	:= fbGetEndTime.GetEndTimeString(3900);
+	bTestTimeCalc	:= FALSE;
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="2" Count="0" />
+      <LineId Id="8" Count="1" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="24" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
