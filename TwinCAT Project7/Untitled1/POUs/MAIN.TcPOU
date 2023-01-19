@@ -11,6 +11,10 @@ VAR
 	bTestTimeCalc	: BOOL;
 	strEndTimeString	: STRING(255);
 	strStartTimeString	: STRING(255);
+	
+	bTestGetTimeString	: BOOL;
+	strTimeString		: STRING(255);
+	fHours				: LREAL	:= 1.26;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -24,6 +28,11 @@ fbGetEndTime();
 IF(bTestTimeCalc)THEN
 	strEndTimeString	:= fbGetEndTime.GetEndTimeString(3900);
 	bTestTimeCalc	:= FALSE;
+END_IF
+
+IF(bTestGetTimeString) THEN
+	strTimeString		:= fbGetEndTime.GetTimeString(fHours);
+	bTestGetTimeString	:= FALSE;
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
@@ -37,6 +46,11 @@ END_IF]]></ST>
       <LineId Id="45" Count="0" />
       <LineId Id="25" Count="0" />
       <LineId Id="24" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="65" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

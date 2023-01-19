@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="F_GetRampUpTimeString" Id="{475f6d4a-fe2b-448e-a7de-c4ba9dd1eae2}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_GetRampUpTimeString : STRING
+VAR_INPUT
+	fTargetTemp	: LREAL;
+	fRampRate	: LREAL; 
+	fCurrentTemp: LREAL;
+END_VAR
+VAR
+	fFractionalTime		: LREAL;
+	dwFractionalTime	: DWORD;
+	tFractionalTime		: TIME;
+	sFractionalTime		: STRING;
+	
+	mCharIndex	: INT;
+	iHours		: INT;
+	iMinutes	: INT;
+	strFractionalTimeString	: STRING;
+	strTrimmedTimeString	: STRING;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*
+// Calculate time in Hours
+IF(stPlatform.stTestController.stOutputs.eTestState = E_TestStates.eTS_RampUp) THEN
+	fFractionalTime := ((fTargetTemp - fCurrentTemp) / fRampRate) + stPlatform.stTestController.stInputs.fSoakTime;
+ELSE
+	fFractionalTime := stPlatform.stTestController.stInputs.fSoakTime - (stPlatform.stTestController.stInternal.fSoakTimer / 3600);
+END_IF
+// Convert time to ms 
+fFractionalTime	:= fFractionalTime * 3.6E6;
+
+// Convert to DW 
+dwFractionalTime	:= LREAL_TO_DWORD(fFractionalTime);
+
+// Convert to time
+tFractionalTime		:= DWORD_TO_TIME(dwFractionalTime);
+
+// Convert to string 
+strFractionalTimeString := TIME_TO_STRING(tFractionalTime);
+
+mCharIndex	:= FIND(STR2:= 'm',STR1:= strFractionalTimeString);
+strTrimmedTimeString	:= LEFT(STR:=strFractionalTimeString,SIZE:=mCharIndex);
+
+//strFractionalTimeString	:= LREAL_TO_STRING(fFractionalTime);
+
+//F_GetRampUpTimeString	:= CONCAT(STR1:='Machine is Ramping Up. Load application required in  ',STR2:= CONCAT(STR1:= INT_TO_STRING(iHours), STR2:= (CONCAT(STR1:= ' Hours and ', STR2:=(CONCAT(STR1:= INT_TO_STRING(iMinutes),STR2:= ' Minutes.'))))));
+
+F_GetRampUpTimeString	:= CONCAT(STR1:='Machine is Ramping Up. Load application required in  ',STR2:= strTrimmedTimeString);
+
+*)]]></ST>
+    </Implementation>
+    <LineIds Name="F_GetRampUpTimeString">
+      <LineId Id="110" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="56" Count="1" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="112" Count="0" />
+      <LineId Id="111" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -22,6 +22,12 @@
     <Compile Include="POUs\FB_GetEndTime.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\F_GetRampUpTimeString.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FB_GetTimeString.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>

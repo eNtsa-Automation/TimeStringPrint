@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_GetTimeString" Id="{a02dbc31-49d2-4486-ba4d-2f8ededa242c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION FB_GetTimeString : STRING(255)
+VAR_INPUT
+	fHours	: LREAL;
+END_VAR
+VAR
+	fFractionalTime		: LREAL;
+	dwFractionalTime	: DWORD;
+	tFractionalTime		: TIME;
+	
+	
+	sFractionalTime		: STRING;
+	
+	mCharIndex		: INT;
+	iSeconds		: INT;
+	iMinutes		: INT;
+	iMiliSeconds	: INT;
+	
+	strFractionalTimeString	: STRING;
+	strTrimmedTimeString	: STRING;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Calculate time in Hours
+// Convert time to ms 
+fFractionalTime	:= fHours * 3.6E6;
+
+// Convert to DW 
+dwFractionalTime	:= LREAL_TO_DWORD(fFractionalTime);
+
+// Convert to time
+tFractionalTime		:= DWORD_TO_TIME(dwFractionalTime);
+
+// Convert to string 
+strFractionalTimeString := TIME_TO_STRING(tFractionalTime);
+
+mCharIndex	:= FIND(STR2:= 'm',STR1:= strFractionalTimeString);
+strTrimmedTimeString	:= LEFT(STR:=strFractionalTimeString,SIZE:=mCharIndex);
+
+//strFractionalTimeString	:= LREAL_TO_STRING(fFractionalTime);
+
+//F_GetRampUpTimeString	:= CONCAT(STR1:='Machine is Ramping Up. Load application required in  ',STR2:= CONCAT(STR1:= INT_TO_STRING(iHours), STR2:= (CONCAT(STR1:= ' Hours and ', STR2:=(CONCAT(STR1:= INT_TO_STRING(iMinutes),STR2:= ' Minutes.'))))));
+
+FB_GetTimeString	:= CONCAT('',strFractionalTimeString);]]></ST>
+    </Implementation>
+    <LineIds Name="FB_GetTimeString">
+      <LineId Id="178" Count="19" />
+      <LineId Id="59" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
